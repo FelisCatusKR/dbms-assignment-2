@@ -8,7 +8,6 @@ from sqlalchemy.orm import Session
 import crud, models, schemas
 from database import SessionLocal, engine, Base
 
-
 app = FastAPI()
 
 # 어플리케이션 시작 시, Base에 저장시킨 메타데이터에 따라
@@ -35,21 +34,21 @@ def get_db():
 
 
 # Create
-@app.post("/users/", status_code=status.HTTP_201_CREATED, response_model=schemas.User)
+@app.post("/api/users", status_code=status.HTTP_201_CREATED, response_model=schemas.User)
 def create_user(user: schemas.UserBase, db: Session = Depends(get_db)):
     db_user = crud.create_user(db=db, user=user)
     return db_user
 
 
 # Read (Finding user(s) with query)
-@app.get("/users/", response_model=List[schemas.User])
+@app.get("/api/users", response_model=List[schemas.User])
 def read_users(q: str = Query(None, min_length=1), db: Session = Depends(get_db)):
     users = crud.get_user_by_name(db=db, name=q)
     return users
 
 
 # Read (One user)
-@app.get("/users/{user_id}", response_model=schemas.User)
+@app.get("/api/users/{user_id}", response_model=schemas.User)
 def read_user(user_id: int, db: Session = Depends(get_db)):
     db_user = crud.get_user(db=db, user_id=user_id)
     if db_user is None:
@@ -58,14 +57,14 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 
 # Update
-@app.put("/users/{user_id}", response_model=schemas.User)
+@app.put("/api/users/{user_id}", response_model=schemas.User)
 def update_user(user_id: int, user: schemas.UserBase, db: Session = Depends(get_db)):
     db_user = crud.update_user(db=db, user_id=user_id, user=user)
     return db_user
 
 
 # Delete
-@app.delete("/users/{user_id}")
+@app.delete("/api/users/{user_id}")
 def delete_user(user_id: int, db: Session = Depends(get_db)):
     db_user = crud.delete_user(db=db, user_id=user_id)
     return db_user
