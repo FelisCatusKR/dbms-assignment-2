@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  backend:
+    environment:
+      POSTGRES_PASSWORD: "1234"
+
+  db:
+    environment:
+      POSTGRES_PASSWORD: "1234"
