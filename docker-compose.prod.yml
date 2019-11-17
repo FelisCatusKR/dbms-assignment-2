@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  app:
+    ports:
+      - "80/tcp"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+    secrets:
+      - psql-pw
+
+  db:
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/psql-pw
+    secrets:
+      - psql-pw
+
+secrets:
+  psql-pw:
+    external: true
