@@ -8,4 +8,4 @@ RUN pip --disable-pip-version-check --no-cache-dir install \
     jinja2 \
     aiofiles
 
-COPY ./app /app
+COPY ./src /app

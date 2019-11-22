@@ -10,9 +10,3 @@ services:
       - "8000:8000/tcp"
     volumes:
       - ./src:/app
-    environment:
-      POSTGRES_PASSWORD: "1234"
-
-  db:
-    environment:
-      POSTGRES_PASSWORD: "1234"

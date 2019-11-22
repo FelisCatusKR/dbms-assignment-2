@@ -8,15 +8,3 @@ services:
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
     ports:
       - "80:80/tcp"
-    secrets:
-      - psql-pw
-
-  db:
-    environment:
-      - POSTGRES_PASSWORD_FILE=/run/secrets/psql-pw
-    secrets:
-      - psql-pw
-
-secrets:
-  psql-pw:
-    external: true
