@@ -1,7 +1,15 @@
 version: "3"
 
 services:
-  backend:
+  app:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--reload"]
+    ports:
+      - "8000:8000/tcp"
+    volumes:
+      - ./src:/app
     environment:
       POSTGRES_PASSWORD: "1234"
 

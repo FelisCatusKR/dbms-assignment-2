@@ -4,6 +4,8 @@ RUN pip --disable-pip-version-check --no-cache-dir install \
     fastapi \
     uvicorn \
     sqlalchemy \
-    psycopg2-binary
-
-COPY app /app
+    psycopg2-binary \
+    jinja2 \
+    aiofiles \
+    pylint \
+    black

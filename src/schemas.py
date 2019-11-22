@@ -10,8 +10,13 @@ class UserBase(BaseModel):
 
 class User(UserBase):
     id: int
-    name: str
-    phone_number: str
 
     class Config:
         orm_mode = True
+
+
+class SearchResult(BaseModel):
+    first_name: str
+    first_name_number: int
+    number: int
+    user_list: List[User]

@@ -2,11 +2,14 @@ from typing import List
 
 from fastapi import FastAPI, Depends, HTTPException, Query
 from starlette import status
+from starlette.requests import Request
+from starlette.staticfiles import StaticFiles
+from starlette.templating import Jinja2Templates
 
 # DB를 다루기 위한 모듈
 from sqlalchemy.orm import Session
-import crud, models, schemas
-from database import SessionLocal, engine, Base
+from . import crud, models, schemas
+from .database import SessionLocal, engine, Base
 
 app = FastAPI()
 
@@ -24,6 +27,15 @@ async def shutdown():
     Base.metadata.drop_all(engine)
 """
 
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+templates = Jinja2Templates(directory="app/templates")
+
+
+@app.get("/")
+def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
 # Dependency
 def get_db():
     try:
@@ -34,16 +46,27 @@ def get_db():
 
 
 # Create
-@app.post("/api/users", status_code=status.HTTP_201_CREATED, response_model=schemas.User)
+@app.post(
+    "/api/users/", status_code=status.HTTP_201_CREATED, response_model=schemas.User
+)
 def create_user(user: schemas.UserBase, db: Session = Depends(get_db)):
     db_user = crud.create_user(db=db, user=user)
     return db_user
 
 
 # Read (Finding user(s) with query)
-@app.get("/api/users", response_model=List[schemas.User])
-def read_users(q: str = Query(None, min_length=1), db: Session = Depends(get_db)):
-    users = crud.get_user_by_name(db=db, name=q)
+@app.get("/api/users/", response_model=schemas.SearchResult)
+def read_users(
+    name: str = Query(None, min_length=1),
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(get_db),
+):
+    if name is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Query is null"
+        )
+    users = crud.get_user_by_name(db=db, name=name, skip=skip, limit=limit)
     return users
 
 
@@ -52,7 +75,9 @@ def read_users(q: str = Query(None, min_length=1), db: Session = Depends(get_db)
 def read_user(user_id: int, db: Session = Depends(get_db)):
     db_user = crud.get_user(db=db, user_id=user_id)
     if db_user is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
     return db_user
 
 
