@@ -5,6 +5,7 @@ from starlette import status
 from starlette.requests import Request
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
+from starlette.responses import FileResponse
 
 # DB를 다루기 위한 모듈
 from sqlalchemy.orm import Session
@@ -57,7 +58,7 @@ def create_user(user: schemas.UserBase, db: Session = Depends(get_db)):
 # Read (Finding user(s) with query)
 @app.get("/api/users/", response_model=schemas.SearchResult)
 def read_users(
-    name: str = Query(None, min_length=1),
+    name: str = Query(None),
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(get_db),
@@ -93,3 +94,9 @@ def update_user(user_id: int, user: schemas.UserBase, db: Session = Depends(get_
 def delete_user(user_id: int, db: Session = Depends(get_db)):
     db_user = crud.delete_user(db=db, user_id=user_id)
     return db_user
+
+
+
+@app.get("/robots.txt")
+def robots():
+    return FileResponse("/app/robots.txt", status_code=status.HTTP_304_NOT_MODIFIED, filename="robots.txt", media_type="text/plain")
