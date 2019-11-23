@@ -96,7 +96,8 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 
-
 @app.get("/robots.txt")
 def robots():
-    return FileResponse("/app/robots.txt", status_code=status.HTTP_304_NOT_MODIFIED, filename="robots.txt", media_type="text/plain")
+    return FileResponse(
+        "/app/robots.txt", filename="robots.txt", media_type="text/plain"
+    )
