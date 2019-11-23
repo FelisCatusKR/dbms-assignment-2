@@ -46,7 +46,7 @@ def update_user(db: Session, user_id: int, user: schemas.UserBase):
 
 
 def delete_user(db: Session, user_id: int):
-    db_user = models.User()
+    db_user = db.query(models.User).filter_by(id=user_id).first()
     db.delete(db_user)
     db.commit()
     db.refresh(db_user)
