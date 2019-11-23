@@ -21,46 +21,51 @@
     /> -->
   </head>
   <body>
-    <nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <span class="navbar-brand">연락처 관리 프로그램</span>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link">홈</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link">검색</a>
+            <a class="nav-link" href="#">연락처 추가</a>
           </li>
         </ul>
+        <form id="search" class="form-inline">
+          <input
+            id="search-input"
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="사용자 이름 입력"
+            aria-label="Search"
+          />
+          <button
+            id="search-button"
+            class="btn btn-outline-success my-2 my-sm-0"
+            type="submit"
+          >
+            검색
+          </button>
+        </form>
       </div>
-      <form id="search" class="form-inline">
-        <input
-          id="search-input"
-          class="form-control mr-sm-2"
-          type="search"
-          placeholder="사용자 이름 입력"
-          aria-label="Search"
-        />
-        <button
-          id="search-button"
-          class="btn btn-outline-success my-2 my-sm-0"
-          type="submit"
-        >
-          검색
-        </button>
-      </form>
     </nav>
     <main role="main">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">이름</th>
-            <th scope="col">전화번호</th>
-          </tr>
-        </thead>
+      <table class="table table-bordered">
+        <thead id="table-head"></thead>
         <tbody id="results"></tbody>
       </table>
+      <nav aria-label="Page navigation for the list of users">
+        <ul class="pagination justify-content-center" id="page-navigator"></ul>
+      </nav>
     </main>
     <footer>
       Designed by <a href="https://github.com/feliscatuskr">Hansaem Woo</a>
