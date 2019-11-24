@@ -1,4 +1,7 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Sequence, Table
+# models.py
+# PostgreSQL에 저장할 Table의 구성을 지정하는 모듈
+
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, Sequence, String, Table
 from sqlalchemy.orm import relationship
 
 from .database import Base
