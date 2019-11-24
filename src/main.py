@@ -21,12 +21,12 @@ def startup():
     Base.metadata.create_all(engine)
 
 
-"""
-# 어플리케이션 종료 시, DB의 모든 테이블 삭제 (디버깅용)
-@app.on_event("shutdown")
-async def shutdown():
-    Base.metadata.drop_all(engine)
-"""
+
+# # 어플리케이션 종료 시, DB의 모든 테이블 삭제 (디버깅용)
+# @app.on_event("shutdown")
+# async def shutdown():
+#     Base.metadata.drop_all(engine)
+
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
@@ -63,13 +63,8 @@ def read_users(
     limit: int = 100,
     db: Session = Depends(get_db),
 ):
-    if name is None:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Query is null"
-        )
     users = crud.get_user_by_name(db=db, name=name, skip=skip, limit=limit)
     return users
-
 
 # Read (One user)
 @app.get("/api/users/{user_id}", response_model=schemas.User)
@@ -80,7 +75,6 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
     return db_user
-
 
 # Update
 @app.put("/api/users/{user_id}", response_model=schemas.User)

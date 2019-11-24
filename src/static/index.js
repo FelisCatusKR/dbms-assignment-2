@@ -1,13 +1,29 @@
 var curPage = 0;
 
 $("#search-button").click(function(event) {
+  // 버튼에 할당된 기본 submit event 취소
   event.preventDefault();
+
+  // 검색 처리 전 검색과 관련된 페이지들을 지움
+  $("#first-name-placeholder").prop("hidden", true);
+  $("#table-head").html("");
+  $("#table-body").html("");
+  $("#page-navigator").html("");
+
   var keyword = $("#search-input").val();
-  var url = "/api/users/" + "?name=" + keyword;
+  var url = "/api/users/" + keyword;
   curPage = 0;
+
   if (keyword != "") {
     $.ajax(url)
       .done(function(result) {
+        console.log(result);
+        // 성이 같은 사람의 수를 출력
+        $("#first-name-placeholder").prop("hidden", false);
+        $("#first-name").html(result.first_name);
+        $("#first-name-number").html(result.first_name_number);
+
+        // 검색 결과가 있을 시 이를 이용하여 table 및 pagination 생성
         if (result.number > 0) {
           $("#table-head").prop("hidden", false);
           var str = "";
@@ -23,8 +39,8 @@ $("#search-button").click(function(event) {
               result.user_list[i]["name"] +
               "</td>";
             str +=
-              "<td class='tr-user-tel'>" +
-              result.user_list[i]["phone_number"] +
+              "<td class='tr-user-phone'>" +
+              result.user_list[i]["phone"] +
               "</td>";
             str += `<td><div class="btn-group" role="group" aria-label="Action buttons">
                       <button type="button" class="btn btn-warning btn-update">수정</button>
@@ -32,7 +48,7 @@ $("#search-button").click(function(event) {
                     </div></td>`;
             str += "</tr>";
           }
-          $("#results").html(str);
+          $("#table-body").html(str);
 
           var page = "";
           page +=
@@ -54,19 +70,11 @@ $("#search-button").click(function(event) {
             page +=
               '<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">다음</a></li>';
           $("#page-navigator").html(page);
-        } else {
-          $("#table-head").html("");
-          $("#results").html("");
-          $("#page-navigator").html("");
         }
       })
       .fail(function(xhr) {
         console.log("error:" + xhr);
       });
-  } else {
-    $("#table-head").html("");
-    $("#results").html("");
-    $("#page-navigator").html("");
   }
 });
 
@@ -88,7 +96,7 @@ $("#user-create-form").submit(function(event) {
     method: "POST",
     data: JSON.stringify({
       name: $("#user-create-form-name").val(),
-      phone_number: $("#user-create-form-tel").val()
+      phone: $("#user-create-form-phone").val()
     })
   });
 
@@ -100,7 +108,7 @@ $("#user-create-form").submit(function(event) {
       console.log(data.responseJSON);
     } else {
       $("#user-create-form-name").val("");
-      $("#user-create-form-tel").val("");
+      $("#user-create-form-phone").val("");
       $("#modal-user-create").modal("hide");
       $("#alert-placeholder").html(`
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -131,12 +139,12 @@ $(document).on("click", ".btn-update", function() {
       .children(".tr-user-name")
       .text()
   );
-  $("#user-update-form-tel").val(
+  $("#user-update-form-phone").val(
     $(this)
       .parent()
       .parent()
       .parent()
-      .children(".tr-user-tel")
+      .children(".tr-user-phone")
       .text()
   );
   $("#modal-user-update").modal("show");
@@ -156,7 +164,7 @@ $("#user-update-form").submit(function(event) {
     method: "PUT",
     data: JSON.stringify({
       name: $("#user-update-form-name").val(),
-      phone_number: $("#user-update-form-tel").val()
+      phone: $("#user-update-form-phone").val()
     })
   });
 
@@ -169,7 +177,7 @@ $("#user-update-form").submit(function(event) {
     } else {
       $("#user-update-form-uid").val("");
       $("#user-update-form-name").val("");
-      $("#user-update-form-tel").val("");
+      $("#user-update-form-phone").val("");
       $("#modal-user-update").modal("hide");
       $("#alert-placeholder").html(`
         <div class="alert alert-success alert-dismissible fade show" role="alert">

@@ -23,7 +23,7 @@
 
   <body>
     <!-- 헤더 -->
-    <header class="navbar navbar-expand navbar-dark bg-dark">
+    <header class="navbar navbar-expand-md navbar-dark bg-dark">
       <span class="navbar-brand">연락처 관리 프로그램</span>
       <button
         class="navbar-toggler"
@@ -64,185 +64,206 @@
     </header>
 
     <main role="main">
-      <!-- Modal이 들어가는 구간 -->
-      <!-- 1. 유저 추가 팝업 -->
-      <div
-        class="modal fade"
-        id="modal-user-create"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="modal-user-create-label"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modal-user-create-label">
-                연락처 추가
-              </h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
+      <!-- Modal(팝업)이 들어가는 구간 -->
+      <div id="modal-placeholder">
+        <!-- 1. 유저 추가 팝업 -->
+        <div
+          class="modal fade"
+          id="modal-user-create"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="modal-user-create-label"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modal-user-create-label">
+                  연락처 추가
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="user-create-form">
+                  <div class="form-group">
+                    <label for="user-create-form-name">이름</label>
+                    <input
+                      type="text"
+                      id="user-create-form-name"
+                      class="form-control"
+                      required
+                    />
+                    <label for="user-create-form-phone">전화번호</label>
+                    <input
+                      type="tel"
+                      id="user-create-form-phone"
+                      class="form-control"
+                      pattern="(^010)(\d{8})"
+                      aria-describedby="create-phoneHelpInline"
+                      required
+                    />
+                    <small id="create-phonelHelpInline" class="text-muted">
+                      전화번호는 010으로 시작하는 11자리 수여야 합니다.
+                    </small>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="submit"
+                  form="user-create-form"
+                  class="btn btn-primary"
+                  id="user-create-button"
+                >
+                  추가
+                </button>
+              </div>
             </div>
-            <div class="modal-body">
-              <form id="user-create-form">
-                <div class="form-group">
-                  <label for="user-create-form-name">이름</label>
-                  <input
-                    type="text"
-                    id="user-create-form-name"
-                    class="form-control"
-                  />
-                  <label for="user-create-form-tel">전화번호</label>
-                  <input
-                    type="tel"
-                    id="user-create-form-tel"
-                    class="form-control"
-                    aria-describedby="create-tellHelpInline"
-                  />
-                  <small id="create-tellHelpInline" class="text-muted">
-                    전화번호는 010으로 시작하는 11자리 수여야 합니다.
-                  </small>
-                </div>
-              </form>
+          </div>
+        </div>
+
+        <!-- 2. 유저 수정 팝업 -->
+        <div
+          class="modal fade"
+          id="modal-user-update"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="modal-user-update-label"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modal-user-update-label">
+                  연락처 수정
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="user-update-form">
+                  <div class="form-group">
+                    <label for="user-update-form-uid" hidden>번호</label>
+                    <input
+                      type="number"
+                      id="user-update-form-uid"
+                      class="form-control"
+                      hidden
+                    />
+                    <label for="user-update-form-name">이름</label>
+                    <input
+                      type="text"
+                      id="user-update-form-name"
+                      class="form-control"
+                      required
+                    />
+                    <label for="user-update-form-phone">전화번호</label>
+                    <!-- /(^010)(\d{8})/ : 010으로 시작하며 숫자 8개가 뒤따라오는 형식이 입력되는지 확인 -->
+                    <input
+                      type="tel"
+                      id="user-update-form-phone"
+                      class="form-control"
+                      pattern="(^010)(\d{8})"
+                      aria-describedby="update-phoneHelpInline"
+                      required
+                    />
+                    <small id="update-phoneHelpInline" class="text-muted">
+                      전화번호는 010으로 시작하는 11자리 수여야 합니다.
+                    </small>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="submit"
+                  form="user-update-form"
+                  class="btn btn-primary"
+                  id="user-update-button"
+                >
+                  수정
+                </button>
+              </div>
             </div>
-            <div class="modal-footer">
-              <button
-                type="submit"
-                form="user-create-form"
-                class="btn btn-primary"
-                id="user-create-button"
-              >
-                추가
-              </button>
+          </div>
+        </div>
+
+        <!-- 3. 유저 삭제 팝업 -->
+        <div
+          class="modal fade"
+          id="modal-user-delete"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="modal-user-delete-label"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modal-user-delete-label">
+                  연락처 삭제
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <span id="modal-user-delete-uid" class="sr-only"></span>
+                <strong>경고!! 이 작업은 돌이킬 수 없습니다!</strong> 계속
+                하시겠습니까?
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  취소
+                </button>
+                <button
+                  id="user-delete-button"
+                  type="button"
+                  class="btn btn-primary btn-danger"
+                >
+                  삭제
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 2. 유저 수정 팝업 -->
-      <div
-        class="modal fade"
-        id="modal-user-update"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="modal-user-update-label"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modal-user-update-label">
-                연락처 수정
-              </h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form id="user-update-form">
-                <div class="form-group">
-                  <label for="user-update-form-uid" hidden>번호</label>
-                  <input
-                    type="number"
-                    id="user-update-form-uid"
-                    class="form-control"
-                    hidden
-                  />
-                  <label for="user-update-form-name">이름</label>
-                  <input
-                    type="text"
-                    id="user-update-form-name"
-                    class="form-control"
-                  />
-                  <label for="user-update-form-tel">전화번호</label>
-                  <input
-                    type="tel"
-                    id="user-update-form-tel"
-                    class="form-control"
-                    aria-describedby="update-tellHelpInline"
-                  />
-                  <small id="update-tellHelpInline" class="text-muted">
-                    전화번호는 010으로 시작하는 11자리 수여야 합니다.
-                  </small>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="submit"
-                form="user-update-form"
-                class="btn btn-primary"
-                id="user-update-button"
-              >
-                수정
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 3. 유저 삭제 팝업 -->
-      <div
-        class="modal fade"
-        id="modal-user-delete"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="modal-user-delete-label"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modal-user-delete-label">
-                연락처 삭제
-              </h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <span id="modal-user-delete-uid" class="sr-only"></span>
-              <strong>경고!! 이 작업은 돌이킬 수 없습니다!</strong> 계속
-              하시겠습니까?
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                취소
-              </button>
-              <button
-                id="user-delete-button"
-                type="button"
-                class="btn btn-primary btn-danger"
-              >
-                삭제
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <!-- 추가/수정/삭제 성공 시 알림이 뜨는 영역 -->
       <div id="alert-placeholder"></div>
 
+      <!-- 성이 같은 사람의 수가 뜨는 영역 -->
+      <div id="first-name-placeholder" class="text-center" hidden>
+        <p id="first-name-state">
+          성이 <span id="first-name" style="font-weight: bold;"></span>인 사람의
+          수는
+          <span id="first-name-number" style="font-weight: bold;"></span
+          >명입니다.
+        </p>
+      </div>
+
+      <!-- 연락처 검색 결과가 뜨는 영역 -->
       <table class="table table-bordered">
         <thead id="table-head" hidden>
           <tr>
@@ -253,12 +274,12 @@
             <th scope="col"><span class="sr-only">수정/삭제</span></th>
           </tr>
         </thead>
-        <tbody id="results">
+        <tbody id="table-body">
           <tr class="tr-user" hidden>
             <td class="tr-user-uid" hidden></td>
             <th class="tr-user-index" scope="row"></th>
             <td class="tr-user-name"></td>
-            <td class="tr-user-tel"></td>
+            <td class="tr-user-phone"></td>
             <td class="tr-user-btn">
               <div class="btn-group" role="group" aria-label="Action buttons">
                 <button type="button" class="btn btn-warning btn-update">

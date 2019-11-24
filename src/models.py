@@ -9,7 +9,7 @@ class User(Base):
 
     id = Column(Integer, Sequence("user_id_seq"), primary_key=True)
     name = Column(String, nullable=False)
-    phone_number = Column(String(length=11), nullable=False)
+    phone = Column(String(length=11), nullable=False)
     # groups = relationship("Group", back_populates="users")
 
 
