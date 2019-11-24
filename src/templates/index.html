@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -15,10 +16,6 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-    <!-- <link
-      rel="stylesheet"
-      href="{{ url_for('static', path='/layout.css') }}"
-    /> -->
   </head>
 
   <body>
@@ -225,7 +222,15 @@
                 </button>
               </div>
               <div class="modal-body">
-                <span id="modal-user-delete-uid" class="sr-only"></span>
+                <form id="user-delete-form" hidden>
+                  <label for="user-delete-form-uid">번호</label>
+                  <input
+                    type="number"
+                    id="user-delete-form-uid"
+                    class="form-control"
+                    hidden
+                  />
+                </form>
                 <strong>경고!! 이 작업은 돌이킬 수 없습니다!</strong> 계속
                 하시겠습니까?
               </div>
@@ -239,7 +244,8 @@
                 </button>
                 <button
                   id="user-delete-button"
-                  type="button"
+                  type="submit"
+                  form="user-delete-form"
                   class="btn btn-primary btn-danger"
                 >
                   삭제
@@ -253,13 +259,19 @@
       <!-- 추가/수정/삭제 성공 시 알림이 뜨는 영역 -->
       <div id="alert-placeholder"></div>
 
-      <!-- 성이 같은 사람의 수가 뜨는 영역 -->
-      <div id="first-name-placeholder" class="text-center" hidden>
-        <p id="first-name-state">
+      <!-- 쿼리와 일치하는 항목의 갯수를 출력하는 영역 -->
+      <div id="query-result-placeholder" class="text-center" hidden>
+        <p>
+          검색 결과
+          <span id="query-result-number" style="font-weight: bold;"></span>건의
+          연락처가 일치합니다.
+        </p>
+        <!-- 성이 같은 사람의 수가 뜨는 영역 -->
+        <p>
           성이 <span id="first-name" style="font-weight: bold;"></span>인 사람의
           수는
-          <span id="first-name-number" style="font-weight: bold;"></span
-          >명입니다.
+          <span id="first-name-number" style="font-weight: bold;"></span>
+          명입니다.
         </p>
       </div>
 
@@ -293,10 +305,31 @@
           </tr>
         </tbody>
       </table>
+
+      <!-- 페이지 내비게이션이 위치할 장소 -->
       <nav aria-label="Page navigation for the list of users">
-        <ul class="pagination justify-content-center" id="page-navigator"></ul>
+        <ul
+          class="pagination justify-content-center"
+          id="page-navigator"
+          hidden
+        >
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true"
+              >이전</a
+            >
+          </li>
+          <li class="page-item active" aria-current="page">
+            <a class="page-link" href="#">1</a>
+          </li>
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true"
+              >다음</a
+            >
+          </li>
+        </ul>
       </nav>
     </main>
+
     <footer>
       Designed by <a href="https://github.com/feliscatuskr">Hansaem Woo</a>
     </footer>
