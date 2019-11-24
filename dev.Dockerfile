@@ -6,6 +6,4 @@ RUN pip --disable-pip-version-check --no-cache-dir install \
     sqlalchemy \
     psycopg2-binary \
     jinja2 \
-    aiofiles \
-    pylint \
-    black
+    aiofiles
