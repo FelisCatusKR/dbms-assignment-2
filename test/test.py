@@ -9,9 +9,5 @@ def test_post_data():
             assert r.status_code == 201
 
 
-def test_search_data():
-    pass
-
-
 if __name__ == "__main__":
     test_post_data()
