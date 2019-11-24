@@ -10,3 +10,11 @@ services:
       - "8000:8000/tcp"
     volumes:
       - ./src:/app
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "40080:80/tcp"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=asdf@asdf.com
+      - PGADMIN_DEFAULT_PASSWORD=1q2w3e4r!
