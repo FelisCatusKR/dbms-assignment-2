@@ -140,6 +140,7 @@ $("#user-create-form").submit(function(event) {
           </button>
         </div>
       `);
+      search();
     }
   });
 });
@@ -213,6 +214,7 @@ $("#user-update-form").submit(function(event) {
           </button>
         </div>
       `);
+      search();
     }
   });
 });
@@ -264,6 +266,7 @@ $("#user-delete-form").submit(function(event) {
           </button>
         </div>
       `);
+      search();
     }
   });
 });
