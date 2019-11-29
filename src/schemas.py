@@ -7,8 +7,8 @@ from pydantic import BaseModel, Schema
 
 
 class UserBase(BaseModel):
-    name: str = Schema(None, min_length=1)
-    phone: str = Schema(None, regex="010\d\d\d\d\d\d\d\d")
+    name: str = Schema(None, regex="^[가-힣]+$")
+    phone: str = Schema(None, regex="^010\d\d\d\d\d\d\d\d$")
 
 
 class User(UserBase):
