@@ -83,22 +83,19 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND, content={"detail": "User not found"}
         )
-    else:
-        return db_user
+    return db_user
 
 
 # Update
 @app.put("/api/users/{user_id}", response_model=schemas.User, responses=responses)
 def update_user(user_id: int, user: schemas.UserBase, db: Session = Depends(get_db)):
-    db_user = crud.get_user(db=db, user_id=user_id)
     # 삭제하고자 하는 user_id에 해당하는 유저가 없을 경우,
     # status code 404를 반환한다
-    if db_user is None:
+    if crud.get_user(db=db, user_id=user_id) is None:
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND, content={"detail": "User not found"}
         )
-    else:
-        return crud.update_user(db=db, user_id=user_id, user=user)
+    return crud.update_user(db=db, user_id=user_id, user=user)
 
 
 # Delete
@@ -112,6 +109,5 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND, content={"detail": "User not found"}
         )
-
     result = crud.delete_user(db=db, user_id=user_id)
     return {"result": result}
